@@ -59,7 +59,7 @@ if st.button("Predict Flight Fare"):
     ]
 
     # Align columns with model input
-    input_df = input_df.reindex(columns=model.feature_names_in_, fill_value=0)
+    input_df = input_df.reindex(columns=expected_columns, fill_value=0)
 
     # Predict
     predicted_fare = model.predict(input_df)[0]
