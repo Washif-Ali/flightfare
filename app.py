@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 
 # Load pre-trained model (RandomForest or any)
-model = joblib.load('flight_fare_model_rf.pkl')
+model = joblib.load('flight_fare_model.pkl')
 
 st.title("Flight Fare Prediction")
 
