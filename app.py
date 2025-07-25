@@ -47,6 +47,17 @@ if st.button("Predict Flight Fare"):
     # One-hot encode to match training format
     input_df = pd.get_dummies(input_df)
 
+    expected_columns = [
+        'duration', 'days_left',
+        'airline_SpiceJet', 'airline_AirAsia', 'airline_Vistara',
+        'source_city_Delhi', 'source_city_Chennai', 'source_city_Kolkata',
+        'destination_city_Mumbai', 'destination_city_Hyderabad', 'destination_city_Bangalore',
+        'departure_time_Morning', 'departure_time_Evening', 'departure_time_Early_Morning',
+        'arrival_time_Morning', 'arrival_time_Evening', 'arrival_time_Night',
+        'stops_zero', 'stops_one', 'stops_two_or_more',
+        'class_Economy', 'class_Business'
+    ]
+
     # Align columns with model input
     input_df = input_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
