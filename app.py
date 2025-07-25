@@ -58,13 +58,13 @@ if st.button("Predict Flight Fare"):
 
 # Optional: Style
 st.markdown(
-    f"""
+    """
     <style>
-    .stApp {{
+    .stApp {
         background-color: #000000;
         background-size: cover;
         color: white;
-    }}
+    }
     </style>
     """,
     unsafe_allow_html=True
