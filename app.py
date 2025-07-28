@@ -22,12 +22,15 @@ def load_model():
 model, expected_columns = load_model()
 
 # --- UI Styling ---
-from pathlib import Path
 import base64
+import requests
 
-# Convert image to base64
-bg_image_path = Path("bao-menglong--FhoJYnw-cg-unsplash.jpg")
-bg_image_base64 = base64.b64encode(bg_image_path.read_bytes()).decode()
+image_url = "https://raw.githubusercontent.com/username/repo/branch/path/to/your-image.jpg"
+
+response = requests.get(image_url)
+response.raise_for_status()  # to catch errors
+
+bg_image_base64 = base64.b64encode(response.content).decode()
 
 st.markdown(
     f"""
