@@ -25,7 +25,7 @@ model, expected_columns = load_model()
 import base64
 import requests
 
-image_url = "https://raw.githubusercontent.com/username/repo/branch/path/to/your-image.jpg"
+image_url = "https://github.com/Washif-Ali/flightfare/blob/main/bao-menglong--FhoJYnw-cg-unsplash.jpg"
 
 response = requests.get(image_url)
 response.raise_for_status()  # to catch errors
