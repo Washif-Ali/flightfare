@@ -16,8 +16,13 @@ model_path = "flight_fare_model_rf.pkl"
 if not os.path.exists(model_path):
     gdown.download(url, model_path, quiet=False)
 
-# Load the model
-model, expected_columns = joblib.load(model_path)
+@st.cache_resource
+def load_model():
+    if not os.path.exists(model_path):
+        gdown.download(url, model_path, quiet=False)
+    return joblib.load(model_path)
+
+model, expected_columns = load_model()
 
 st.title("Flight Fare Prediction")
 
