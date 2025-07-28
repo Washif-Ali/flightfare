@@ -26,7 +26,7 @@ from pathlib import Path
 import base64
 
 # Convert image to base64
-bg_image_path = Path(r"C:\Users\muhdw\Downloads\bao-menglong--FhoJYnw-cg-unsplash.jpg")
+bg_image_path = Path("bao-menglong--FhoJYnw-cg-unsplash.jpg")
 bg_image_base64 = base64.b64encode(bg_image_path.read_bytes()).decode()
 
 st.markdown(
