@@ -22,33 +22,87 @@ def load_model():
 model, expected_columns = load_model()
 
 # --- UI Styling ---
-st.markdown("""
+from pathlib import Path
+import base64
+
+# Convert image to base64
+bg_image_path = Path("C:\Users\muhdw\Downloads\bao-menglong--FhoJYnw-cg-unsplash.jpg")
+bg_image_base64 = base64.b64encode(bg_image_path.read_bytes()).decode()
+
+st.markdown(
+    f"""
     <style>
-    body {
-        background-color: #000000;
-        color: white;
-    }
-    .stApp {
-        background-color: #000000;
-        color: white;
-        font-family: 'Segoe UI', sans-serif;
-    }
-    h1, h3 {
-        color: #00c2ff;
-    }
-    .stButton>button {
-        background-color: #00c2ff;
+    .stApp {{
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+    }}
+
+    .stApp::before {{
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/png;base64,{bg_image_base64}");
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+    }}
+
+    .stApp::after {{
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+        z-index: -1;
+    }}
+
+    h1, h3 {{
+        color: #ffffff;
+    }}
+
+    .stButton>button {{
+        background-color: #ff4b4b;
         color: white;
         padding: 10px 24px;
         border-radius: 8px;
         font-size: 16px;
         font-weight: bold;
-    }
-    .stSlider .st-cq {
-        color: #00c2ff;
-    }
+        border: none;
+    }}
+
+    .stButton>button:hover {{
+        background-color: #ff6b6b;
+        color: black;
+    }}
+
+    .stSlider .st-cq {{
+        color: #ff4b4b;
+    }}
+
+    .st-expander, .stSelectbox, .stSlider {{
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        padding: 1em;
+    }}
+
+    .stSelectbox>div>div {{
+        background-color: #222;
+        color: white;
+    }}
+
+    .stTextInput>div>div>input {{
+        color: white;
+    }}
     </style>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 # --- App Title ---
 st.title("✈️ Flight Fare Prediction")
