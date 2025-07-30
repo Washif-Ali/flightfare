@@ -199,18 +199,29 @@ with col_inputs:
 # It uses 'cover' to ensure the image covers the entire background, 'center' to center it,
 # and 'no-repeat' to prevent tiling.
 st.markdown(
-    f"""
-    <style>
-    .stApp {{
-        background-image: url("https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed; /* Keeps the background fixed when scrolling */
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+     f"""
+     <style>
+     .stApp {{
+         background-image: url("https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+         background-size: cover;
+         background-position: center;
+         background-repeat: no-repeat;
+         background-attachment: fixed; /* Keeps the background fixed when scrolling */
+         position: relative; /* Needed for the overlay to be positioned correctly */
+         overflow: hidden; /* To contain the overlay within the app bounds */
+     }}
+     .overlay {{
+         position: fixed; /* Cover the entire viewport */
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
+         z-index: -1; /* Place the overlay behind other content */
+     }}
+     </style>
+     """,
+     unsafe_allow_html=True
+ )
 
 
