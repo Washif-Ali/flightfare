@@ -1,4 +1,5 @@
 streamlit
+pydeck
 pandas
 scikit-learn
 joblib
