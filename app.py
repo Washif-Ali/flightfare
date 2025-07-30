@@ -31,7 +31,7 @@ city_coords = {
 }
 
 # --- UI STYLING ---
-st.set_page_config(page_title="Flight Fare Predictor", layout="centered")
+st.set_page_config(page_title="Flight Fare Predictor", layout="wide")
 st.title("✈️ Flight Fare Prediction")
 st.subheader("🧳 Plan smarter. Pay less.")
 
