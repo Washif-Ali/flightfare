@@ -199,6 +199,8 @@ with col_inputs:
 # It uses 'cover' to ensure the image covers the entire background, 'center' to center it,
 # and 'no-repeat' to prevent tiling.
 # Then apply the CSS styling as before
+st.markdown('<div class="overlay"></div>', unsafe_allow_html=True)
+
 st.markdown(
      f"""
      <style>
