@@ -194,4 +194,23 @@ with col_inputs:
             predicted_fare = model.predict(input_df)[0]
             st.success(f"✅ Estimated Fare: ₹{predicted_fare:,.2f}")
 
+# --- CUSTOM CSS FOR BACKGROUND IMAGE ---
+# This CSS block targets the main Streamlit container and sets the background image.
+# It uses 'cover' to ensure the image covers the entire background, 'center' to center it,
+# and 'no-repeat' to prevent tiling.
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Keeps the background fixed when scrolling */
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
