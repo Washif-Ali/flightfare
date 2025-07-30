@@ -63,31 +63,31 @@ st.set_page_config(page_title="Flight Fare Predictor", layout="wide") # Changed 
 st.title("✈️ Flight Fare Prediction")
 st.subheader("🧳 Plan smarter. Pay less.")
 
+# --- CITY SELECTION (MOVED ABOVE COLUMNS FOR ALIGNMENT) ---
+st.subheader("🌍 Select Source and Destination")
+
+# Multiselect widget for users to choose source and destination cities
+selected_cities = st.multiselect(
+    "Select exactly TWO cities (First = Source, Second = Destination)",
+    list(city_coords.keys()),
+    default=["Delhi", "Mumbai"],
+    key="city_select" # Added a key to prevent potential issues with multiple selectboxes
+)
+
+# Enforce selection of exactly two cities
+if len(selected_cities) != 2:
+    st.warning("Please select exactly two cities to continue.")
+    st.stop() # Stop execution until valid selection is made
+
+source, destination = selected_cities
+source_coords = city_coords[source]
+dest_coords = city_coords[destination]
+
 # --- MAIN LAYOUT: TWO COLUMNS ---
 # Create two columns: one for the map (left) and one for inputs (right)
 col_map, col_inputs = st.columns([0.6, 0.4]) # Adjust ratio as needed
 
 with col_map:
-    # --- INTERACTIVE MAP ---
-    st.subheader("🌍 Select Source and Destination on Map")
-
-    # Multiselect widget for users to choose source and destination cities
-    selected_cities = st.multiselect(
-        "Select exactly TWO cities (First = Source, Second = Destination)",
-        list(city_coords.keys()),
-        default=["Delhi", "Mumbai"],
-        key="city_select" # Added a key to prevent potential issues with multiple selectboxes
-    )
-
-    # Enforce selection of exactly two cities
-    if len(selected_cities) != 2:
-        st.warning("Please select exactly two cities to continue.")
-        st.stop() # Stop execution until valid selection is made
-
-    source, destination = selected_cities
-    source_coords = city_coords[source]
-    dest_coords = city_coords[destination]
-
     # --- ROUTE DATA ---
     # DataFrame to hold the source and destination coordinates for the line layer
     route_data = pd.DataFrame([
