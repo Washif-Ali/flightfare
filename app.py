@@ -39,6 +39,16 @@ st.title("✈️ Flight Fare Prediction")
 st.subheader("🧳 Plan smarter. Pay less.")
 
 # --- INTERACTIVE MAP ---
+selected_cities = st.multiselect(
+    "Select exactly TWO cities (First = Source, Second = Destination)",
+    list(city_coords.keys()),
+    default=["Delhi", "Mumbai"]
+)
+
+if len(selected_cities) != 2:
+    st.warning("Please select exactly two cities.")
+else:
+    source, destination = selected_cities
 # Data for line
 line_data = pd.DataFrame([{
     "from_lon": src_coords[0],
