@@ -22,20 +22,26 @@ model, expected_columns = load_model()
 
 # --- CITY COORDINATES ---
 city_coords = {
-    'Delhi': [77.1025, 28.7041],
-    'Mumbai': [72.8777, 19.0760],
-    'Bangalore': [77.5946, 12.9716],
-    'Kolkata': [88.3639, 22.5726],
-    'Hyderabad': [78.4867, 17.3850],
-    'Chennai': [80.2707, 13.0827]
+    'Delhi': [28.6139, 77.2090],
+    'Mumbai': [19.0760, 72.8777],
+    'Bangalore': [12.9716, 77.5946],
+    'Kolkata': [22.5726, 88.3639],
+    'Hyderabad': [17.3850, 78.4867],
+    'Chennai': [13.0827, 80.2707]
 }
 
+map_data = pd.DataFrame([
+    {'city': city, 'lat': coords[0], 'lon': coords[1]} for city, coords in city_coords.items()
+])
+
 # --- UI STYLING ---
-st.set_page_config(page_title="Flight Fare Predictor", layout="wide")
+st.set_page_config(page_title="Flight Fare Predictor", layout="centered")
 st.title("✈️ Flight Fare Prediction")
 st.subheader("🧳 Plan smarter. Pay less.")
 
-# --- SELECT SOURCE AND DESTINATION ---
+# --- INTERACTIVE MAP ---
+st.subheader("🌍 Select Source and Destination on Map")
+
 selected_cities = st.multiselect(
     "Select exactly TWO cities (First = Source, Second = Destination)",
     list(city_coords.keys()),
@@ -43,71 +49,54 @@ selected_cities = st.multiselect(
 )
 
 if len(selected_cities) != 2:
-    st.warning("Please select exactly two cities to proceed.")
-    st.stop()  # stop running further code until selection is correct
+    st.warning("Please select exactly two cities to continue.")
+    st.stop()
 
 source, destination = selected_cities
+source_coords = city_coords[source]
+dest_coords = city_coords[destination]
 
-src_coords = city_coords[source]
-dst_coords = city_coords[destination]
+# --- ROUTE DATA ---
+route_data = pd.DataFrame([
+    {"from": source, "to": destination,
+     "from_lon": source_coords[1], "from_lat": source_coords[0],
+     "to_lon": dest_coords[1], "to_lat": dest_coords[0]}
+])
 
-# --- INTERACTIVE MAP ---
-# Data for line
-line_data = pd.DataFrame([{
-    "from_lon": src_coords[0],
-    "from_lat": src_coords[1],
-    "to_lon": dst_coords[0],
-    "to_lat": dst_coords[1],
-}])
-
-# Data for airplane icon
-icon_data = pd.DataFrame([{
-    "lat": (src_coords[1] + dst_coords[1]) / 2,
-    "lon": (src_coords[0] + dst_coords[0]) / 2,
-    "icon_data": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Black_airplane_silhouette.png",
-        "width": 128,
-        "height": 128,
-        "anchorY": 128,
-    }
-}])
-
-# Define layers
-line_layer = pdk.Layer(
-    "ArcLayer",
-    data=line_data,
-    get_source_position=["from_lon", "from_lat"],
-    get_target_position=["to_lon", "to_lat"],
-    get_width=2,
-    get_source_color=[255, 255, 255],
-    get_target_color=[255, 255, 255],
-    stroke_width=3,
-    width_min_pixels=2,
-    width_max_pixels=3,
-    get_tilt=10,
-    pickable=True,
-)
-
-icon_layer = pdk.Layer(
-    type="IconLayer",
-    data=icon_data,
-    get_icon="icon_data",
-    get_size=4,
-    size_scale=10,
-    get_position=["lon", "lat"],
-    pickable=False,
-)
-
-# Render map
+# --- DISPLAY MAP ---
 st.pydeck_chart(pdk.Deck(
-    map_style="mapbox://styles/mapbox/dark-v10",
     initial_view_state=pdk.ViewState(
-        latitude=(src_coords[1] + dst_coords[1]) / 2,
-        longitude=(src_coords[0] + dst_coords[0]) / 2,
-        zoom=4,
-        pitch=40,
+        latitude=(source_coords[0] + dest_coords[0]) / 2,
+        longitude=(source_coords[1] + dest_coords[1]) / 2,
+        zoom=5,
+        pitch=0,
     ),
-    layers=[line_layer, icon_layer],
+    layers=[
+        pdk.Layer(
+            "ScatterplotLayer",
+            data=map_data,
+            get_position='[lon, lat]',
+            get_fill_color='[255, 140, 0, 160]',
+            get_radius=60000,
+        ),
+        pdk.Layer(
+            "TextLayer",
+            data=map_data,
+            get_position='[lon, lat]',
+            get_text='city',
+            get_size=16,
+            get_color=[255, 255, 255],
+            get_alignment_baseline="'bottom'",
+        ),
+        pdk.Layer(
+            "LineLayer",
+            data=route_data,
+            get_source_position='[from_lon, from_lat]',
+            get_target_position='[to_lon, to_lat]',
+            get_color=[0, 255, 255],
+            get_width=5,
+        ),
+    ]
 ))
 
 # --- OTHER USER INPUTS ---
