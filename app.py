@@ -198,6 +198,7 @@ with col_inputs:
 # This CSS block targets the main Streamlit container and sets the background image.
 # It uses 'cover' to ensure the image covers the entire background, 'center' to center it,
 # and 'no-repeat' to prevent tiling.
+# Then apply the CSS styling as before
 st.markdown(
      f"""
      <style>
@@ -206,22 +207,21 @@ st.markdown(
          background-size: cover;
          background-position: center;
          background-repeat: no-repeat;
-         background-attachment: fixed; /* Keeps the background fixed when scrolling */
-         position: relative; /* Needed for the overlay to be positioned correctly */
-         overflow: hidden; /* To contain the overlay within the app bounds */
+         background-attachment: fixed;
+         position: relative;
+         overflow: hidden;
      }}
      .overlay {{
-         position: fixed; /* Cover the entire viewport */
+         position: fixed;
          top: 0;
          left: 0;
          width: 100%;
          height: 100%;
-         background-color: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
-         z-index: -1; /* Place the overlay behind other content */
+         background-color: rgba(0, 0, 0, 0.4);
+         z-index: -1;
      }}
      </style>
      """,
      unsafe_allow_html=True
- )
-
+)
 
