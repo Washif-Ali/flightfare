@@ -30,15 +30,12 @@ city_coords = {
     'Chennai': [80.2707, 13.0827]
 }
 
-src_coords = city_coords[source]
-dst_coords = city_coords[destination]
-
 # --- UI STYLING ---
 st.set_page_config(page_title="Flight Fare Predictor", layout="centered")
 st.title("✈️ Flight Fare Prediction")
 st.subheader("🧳 Plan smarter. Pay less.")
 
-# --- INTERACTIVE MAP ---
+# --- SELECT SOURCE AND DESTINATION ---
 selected_cities = st.multiselect(
     "Select exactly TWO cities (First = Source, Second = Destination)",
     list(city_coords.keys()),
@@ -46,9 +43,15 @@ selected_cities = st.multiselect(
 )
 
 if len(selected_cities) != 2:
-    st.warning("Please select exactly two cities.")
-else:
-    source, destination = selected_cities
+    st.warning("Please select exactly two cities to proceed.")
+    st.stop()  # stop running further code until selection is correct
+
+source, destination = selected_cities
+
+src_coords = city_coords[source]
+dst_coords = city_coords[destination]
+
+# --- INTERACTIVE MAP ---
 # Data for line
 line_data = pd.DataFrame([{
     "from_lon": src_coords[0],
